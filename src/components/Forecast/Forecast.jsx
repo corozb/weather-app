@@ -23,8 +23,7 @@ const Forecast = () => {
 
 		const uriEncodeCity = encodeURIComponent(city);
 
-		const API_KEY = '525832fa65bb21b21a82519d028a5aac';
-		const URL_API = `http://api.openweathermap.org/data/2.5/weather?q=${uriEncodeCity}&units=${unit}&appid=${API_KEY}`;
+		const URL_API = `http://api.openweathermap.org/data/2.5/weather?q=${uriEncodeCity}&units=${unit}&appid=${process.env.REACT_APP_API_KEY}`;
 
 		fetch(URL_API)
 			.then((response) => response.json())
