@@ -1,10 +1,9 @@
 import React from 'react';
-import Forecast from './components/Forecast';
+import Forecast from './components/Forecast/Forecast';
 
 const App = () => {
 	return (
 		<div className='App'>
-			<h1>Weather App</h1>
 			<main>
 				<Forecast />
 			</main>

@@ -1,8 +1,9 @@
 import React from 'react';
+import classes from './Conditions.module.css';
 
 const Conditions = (props) => {
 	return (
-		<div>
+		<div className={classes.Wrapper}>
 			{props.search.cod === 200 ? (
 				<div>
 					<p>
