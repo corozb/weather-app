@@ -7,7 +7,7 @@ const App = () => {
 			<main>
 				<Forecast />
 			</main>
-			<footer>Page created by Creea</footer>
+			<footer>Page created by Creaa</footer>
 		</div>
 	);
 };

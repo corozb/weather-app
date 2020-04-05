@@ -6,19 +6,40 @@ const Forecast = () => {
 	let [city, setCity] = useState('');
 	let [unit, setUnit] = useState('metric');
 	let [query, setQuery] = useState({});
-
-	const uriEncodeCity = encodeURIComponent(city);
+	let [error, setError] = useState(false);
+	let [loading, setLoading] = useState(false);
 
 	function getForescast(e) {
 		e.preventDefault();
 
+		if (city.length === 0) {
+			setError(true);
+		}
+
+		// Clear state in preparation for new data
+		setError(false);
+		setQuery({});
+		setLoading(true);
+
+		const uriEncodeCity = encodeURIComponent(city);
+
 		const API_KEY = '525832fa65bb21b21a82519d028a5aac';
-		const URL_API = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`;
+		const URL_API = `http://api.openweathermap.org/data/2.5/weather?q=${uriEncodeCity}&units=${unit}&appid=${API_KEY}`;
 
 		fetch(URL_API)
 			.then((response) => response.json())
 			.then((response) => {
+				if (response.cod !== 200) {
+					throw new Error();
+				}
+
 				setQuery(response);
+				setLoading(false);
+			})
+			.catch((err) => {
+				setError(true);
+				setLoading(false);
+				console.log(err.message);
 			});
 	}
 
@@ -38,7 +59,7 @@ const Forecast = () => {
 					<input
 						type='radio'
 						name='units'
-						checked={unit == 'metric'}
+						checked={unit === 'metric'}
 						value='metric'
 						onChange={(e) => setUnit(e.target.value)}
 					/>
@@ -48,7 +69,7 @@ const Forecast = () => {
 					<input
 						type='radio'
 						name='units'
-						checked={unit == 'imperial'}
+						checked={unit === 'imperial'}
 						value='imperial'
 						onChange={(e) => setUnit(e.target.value)}
 					/>
@@ -58,7 +79,7 @@ const Forecast = () => {
 					Get Forecast
 				</button>
 			</form>
-			<Conditions search={query} />
+			<Conditions search={query} error={error} loading={loading} />
 		</div>
 	);
 };
